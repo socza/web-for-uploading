@@ -7,10 +7,8 @@ exports.upload = function(request, response) {
 	var form = new formidable.IncomingForm();
 	form.parse(request, function(error, fields, files) {
 
-		console.log(fields.title);
 		fs.renameSync(files.upload.path, fields.title + ".png");
 		response.writeHead(200, {"Content-Type": "text/html; charset=utf-8"});
-		response.json({title: fields.title});
 		response.write("received image:<br/>");
 		response.write("<img src='/show' />");
 		response.end();
@@ -33,11 +31,9 @@ exports.welcome = function(request, response) {
 }
 
 exports.show = function(request, response) {
-	console.log(request, response);
 	
-	fs.readFile("./tres.png", "binary", function(error, file) {
+	fs.readFile("./*.png", "binary", function(error, file) {
 		
-		// console.log(file);
 		response.writeHead(200, {"Content-Type": "image/png"});
 		response.write(file, "binary");
 		response.end();
